@@ -51,7 +51,7 @@ class NewsRepository @Inject constructor(
             }
     }
 
-    private fun storeNewsInDb(list: List<ArticleEntity>) {
+    fun storeNewsInDb(list: List<ArticleEntity>) {
 
         Observable.fromCallable { articleDao.insertAll(list) }
             .subscribeOn(Schedulers.io())
