@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase
     entities = [
         ArticleEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false)
 
 abstract class NewsDb: RoomDatabase() {

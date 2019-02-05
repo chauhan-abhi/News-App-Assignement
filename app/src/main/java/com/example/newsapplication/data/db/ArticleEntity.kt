@@ -15,6 +15,7 @@ data class ArticleEntity(
     val author: String,
     val sourceId: String,
     val sourceName: String,
+    val description: String,
     val url: String,
     val image: String,
     val publishedAt: String

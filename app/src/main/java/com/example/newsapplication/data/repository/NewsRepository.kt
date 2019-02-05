@@ -41,6 +41,7 @@ class NewsRepository @Inject constructor(
                         article.author ?: "",
                         article.source.id ?: "",
                         article.source.name ?: "",
+                        article.description ?: "",
                         article.url ?: "",
                         article.urlToImage ?: "",
                         article.publishedAt ?: ""

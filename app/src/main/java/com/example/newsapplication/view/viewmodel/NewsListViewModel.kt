@@ -86,6 +86,7 @@ class NewsListViewModel : BaseViewModel() {
                 article.author ?: "",
                 article.source.id ?: "",
                 article.source.name ?: "",
+                article.description ?: "",
                 article.url ?: "",
                 article.urlToImage ?: "",
                 article.publishedAt ?: ""

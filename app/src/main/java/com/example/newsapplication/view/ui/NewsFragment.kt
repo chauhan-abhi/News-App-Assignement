@@ -45,7 +45,7 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_news, container, false)
+        val view = inflater.inflate(R.layout.fragment_news, container, false)
         rvNews = view.findViewById(R.id.upcoming_news)
         return view
     }
@@ -123,6 +123,7 @@ class NewsFragment : Fragment() {
                 article.author ?: "",
                 article.source.id ?: "",
                 article.source.name ?: "",
+                article.description ?: "",
                 article.url ?: "",
                 article.urlToImage ?: "",
                 article.publishedAt ?: ""
