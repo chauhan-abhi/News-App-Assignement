@@ -1,13 +1,16 @@
 package com.example.newsapplication.base
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 
 /**
  * Created by abhishek on 28/08/17.
  */
 
+
 abstract class BaseRecyclerViewAdapter<T, V : RecyclerView.ViewHolder>(
-    protected var mList: List<T>?
+    protected var mList: List<T>?,
+    protected var context: Context?
 ) : RecyclerView.Adapter<V>() {
 
     override fun getItemCount(): Int {

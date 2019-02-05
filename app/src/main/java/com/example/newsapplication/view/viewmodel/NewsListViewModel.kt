@@ -25,7 +25,7 @@ class NewsListViewModel : BaseViewModel() {
     private lateinit var dbSubscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     //val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val newsListAdapter: NewsListAdapter = NewsListAdapter(ArrayList())
+    //val newsListAdapter: NewsListAdapter = NewsListAdapter(ArrayList())
 
     val errorClickListener = View.OnClickListener {
         loadNews()
@@ -98,7 +98,7 @@ class NewsListViewModel : BaseViewModel() {
 
     private fun onNewsFetched(newsList: List<ArticleEntity>) {
         //setadapter
-        newsListAdapter.setData(newsList)
+        //newsListAdapter.setData(newsList)
     }
 
     private fun onErrorFetchingFromDb() {

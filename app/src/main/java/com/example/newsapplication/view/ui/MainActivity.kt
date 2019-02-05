@@ -1,18 +1,12 @@
 package com.example.newsapplication.view.ui
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.example.newsapplication.R
 import com.example.newsapplication.base.BaseActivity
 import com.example.newsapplication.base.TransactionFragmentHelper
 import com.example.newsapplication.utils.DetailArticleEvent
-import com.example.newsapplication.view.viewmodel.NewsListViewModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

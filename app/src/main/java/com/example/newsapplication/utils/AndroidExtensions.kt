@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.newsapplication.R
 import com.example.newsapplication.view.ui.MainActivity
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.reactivex.android.schedulers.AndroidSchedulers

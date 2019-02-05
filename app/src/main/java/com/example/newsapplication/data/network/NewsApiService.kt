@@ -12,6 +12,5 @@ interface NewsApiService {
                         @Query("category") category: String): Observable<NewsResponse>
 
     @GET("everything")
-    fun getEverything(@Query("q") query: String,
-                      @Query("sortBy") sortBy: String): Observable<NewsResponse>
+    fun getEverything(@Query("q") query: String ): Observable<NewsResponse>
 }

@@ -24,7 +24,6 @@ class NewsRepository @Inject constructor(
             .toObservable()
             .doOnNext {
                 Timber.d("Dispatching ${it.size} articles from DB...")
-
             }
     }
 
@@ -32,24 +31,16 @@ class NewsRepository @Inject constructor(
         return newsApiService.getTopHeadlines(country = country, category = category)
             //.filter { it.status == "ok" }
             .doOnNext {
-                Timber.d("Dispatching ${it.articles.size} articles from API...")
-                val list: ArrayList<ArticleEntity> = ArrayList()
-                for (article in it.articles) {
-                    val articleEntity = ArticleEntity(
-                        0,
-                        article.title ?: "",
-                        article.author ?: "",
-                        article.source.id ?: "",
-                        article.source.name ?: "",
-                        article.description ?: "",
-                        article.url ?: "",
-                        article.urlToImage ?: "",
-                        article.publishedAt ?: ""
-                    )
-                    list.add(articleEntity)
-                }
-                storeNewsInDb(list)
+                processResult(it)
             }
+    }
+
+    fun getNewsFromSearch(query: String): Observable<NewsResponse> {
+        return newsApiService.getEverything(query)
+            .doOnNext {
+                processResult(it)
+            }
+
     }
 
     fun storeNewsInDb(list: List<ArticleEntity>) {
@@ -60,5 +51,26 @@ class NewsRepository @Inject constructor(
             .subscribe {
                 Timber.d("Inserted ${list.size} articles from API in DB...")
             }
+    }
+
+    private fun processResult(it: NewsResponse) {
+        Timber.d("Dispatching ${it.articles.size} articles from API...")
+        val list: ArrayList<ArticleEntity> = ArrayList()
+        for (article in it.articles) {
+            val articleEntity = ArticleEntity(
+                0,
+                article.title ?: "",
+                article.author ?: "",
+                article.source.id ?: "",
+                article.source.name ?: "",
+                article.description ?: "",
+                article.url ?: "",
+                article.urlToImage ?: "",
+                article.publishedAt ?: ""
+            )
+            list.add(articleEntity)
+        }
+        storeNewsInDb(list)
+
     }
 }
