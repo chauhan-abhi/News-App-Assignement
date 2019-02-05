@@ -14,6 +14,10 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import java.text.ParseException
+import android.support.v4.content.ContextCompat.getSystemService
+import android.telephony.TelephonyManager
+
+
 
 fun isNetworkStatusAvailable(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
@@ -25,6 +29,11 @@ fun isNetworkStatusAvailable(context: Context): Boolean {
     return false
 }
 
+fun getCountryCode(context: Context?): String {
+    val manager = context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    //getNetworkCountryIso
+    return manager.simCountryIso.toLowerCase()
+}
 
 fun ImageView.loadImg(imageUrl: String) =
     Glide.with(context)

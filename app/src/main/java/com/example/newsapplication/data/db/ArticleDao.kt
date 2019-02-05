@@ -11,7 +11,7 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(article: ArticleEntity)
 
-    @Query("SELECT * FROM article")
+    @Query("SELECT * FROM article ORDER BY publishedAt DESC")
     fun getArticles(): Single<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -31,14 +31,14 @@ class NewsRepository @Inject constructor(
         return newsApiService.getTopHeadlines(country = country, category = category)
             //.filter { it.status == "ok" }
             .doOnNext {
-                processResult(it)
+                processResult(it, true)
             }
     }
 
     fun getNewsFromSearch(query: String): Observable<NewsResponse> {
         return newsApiService.getEverything(query)
             .doOnNext {
-                processResult(it)
+                processResult(it, false)
             }
 
     }
@@ -53,7 +53,7 @@ class NewsRepository @Inject constructor(
             }
     }
 
-    private fun processResult(it: NewsResponse) {
+    private fun processResult(it: NewsResponse, storeInDb: Boolean) {
         Timber.d("Dispatching ${it.articles.size} articles from API...")
         val list: ArrayList<ArticleEntity> = ArrayList()
         for (article in it.articles) {
@@ -70,7 +70,9 @@ class NewsRepository @Inject constructor(
             )
             list.add(articleEntity)
         }
-        storeNewsInDb(list)
+        if (storeInDb) {
+            storeNewsInDb(list)
+        }
 
     }
 }

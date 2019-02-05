@@ -13,9 +13,6 @@ import android.widget.TextView
 import com.example.newsapplication.R
 import com.example.newsapplication.utils.loadImg
 
-
-
-
 class DetailActivity : AppCompatActivity() {
 
     var title: String = ""
@@ -44,7 +41,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun openWebView() {
-
+        val intent = Intent(this@DetailActivity, WebViewActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
     }
 
     private fun setViews() {
@@ -76,7 +75,7 @@ class DetailActivity : AppCompatActivity() {
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
             shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this news! Send from MyTimes App\n" + Uri.parse(url))
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this news! Send from SocialCops News App\n" + Uri.parse(url))
             startActivity(Intent.createChooser(shareIntent, "Share with"))
         }
     }

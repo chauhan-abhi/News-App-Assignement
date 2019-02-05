@@ -1,14 +1,12 @@
 package com.example.newsapplication.view.ui
 
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import com.example.newsapplication.R
 import com.example.newsapplication.data.db.ArticleEntity
@@ -20,11 +18,12 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.EditorInfo
+import android.support.v4.widget.SwipeRefreshLayout
+import android.view.*
 import android.widget.TextView
-
-import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import com.example.newsapplication.utils.getCountryCode
 
 
 class NewsFragment : Fragment() {
@@ -33,7 +32,9 @@ class NewsFragment : Fragment() {
     lateinit var newsRepository: NewsRepository
 
     private lateinit var rvNews: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var searchEditText: EditText
+    private lateinit var progressDialog: ProgressDialog
     private lateinit var newsList: List<ArticleEntity>
     private lateinit var newsListAdapter: NewsListAdapter
     private lateinit var networkSubscription: Disposable
@@ -50,8 +51,24 @@ class NewsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_news, container, false)
         rvNews = view.findViewById(R.id.upcoming_news)
+        initSwipeRefresh(view)
         searchEditText = view.findViewById(com.example.newsapplication.R.id.search_editext)
         return view
+    }
+
+    private fun initSwipeRefresh(view: View) {
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout)
+        swipeRefreshLayout.setOnRefreshListener {
+            loadNewsFromApi()
+        }
+
+        swipeRefreshLayout.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        );
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,8 +126,11 @@ class NewsFragment : Fragment() {
     }
 
     private fun loadNewsFromApi() {
+        var countryCode = getCountryCode(context!!)
+        if (countryCode.isNullOrEmpty())
+            countryCode = context!!.resources.configuration.locale.country
         networkSubscription =
-                newsRepository.getNewsFromApi(context!!.resources.configuration.locale.country ?: "in", "")
+                newsRepository.getNewsFromApi(countryCode, "")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { showLoading() }
@@ -119,6 +139,7 @@ class NewsFragment : Fragment() {
                         { newsResponse -> onNewsSuccess(newsResponse.articles) },
                         { loadNewsFromDb() }
                     )
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun searchNewsFromQuery(query: String) {
@@ -136,16 +157,24 @@ class NewsFragment : Fragment() {
     }
 
     private fun noNewsFound() {
-
+        Toast.makeText(context, "No news found", Toast.LENGTH_SHORT)
     }
 
     private fun hideLoading() {
-        //loadingVisibility.value = View.GONE
+        if (progressDialog != null && progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
     }
 
     private fun showLoading() {
-        //loadingVisibility.value = View.VISIBLE
-        //errorMessage.value = null
+        progressDialog = ProgressDialog(context)
+        val inflater = LayoutInflater.from(context)
+        progressDialog.getWindow()!!.requestFeature(1)
+        progressDialog.getWindow()!!.setBackgroundDrawableResource(17170445)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.show()
+        progressDialog.setContentView(inflater.inflate(R.layout.progress, null as ViewGroup?))
     }
 
     private fun onNewsSuccess(newsList: List<Article>) {
@@ -174,6 +203,5 @@ class NewsFragment : Fragment() {
     private fun onErrorFetchingFromDb() {
         //errorMessage.value = "Error"
     }
-
 
 }

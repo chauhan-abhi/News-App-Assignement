@@ -16,10 +16,13 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".view.ui.WebViewActivity">
+        </activity>
         <activity android:name=".view.ui.DetailActivity">
         </activity>
-        <activity android:name=".view.ui.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        <activity
+                android:name=".view.ui.MainActivity"
+                android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
