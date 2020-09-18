@@ -1,5 +1,7 @@
 # News-App-Assignement
 
+A new version of this repository with new architecture is available at [News App(2.0)](https://github.com/chauhan-abhi/modern-news-app)
+
 ## Goals
 
 - Fetching top headlines depending on the your country from [News API](https://newsapi.org/)
